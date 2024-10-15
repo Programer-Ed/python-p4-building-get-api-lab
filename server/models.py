@@ -32,7 +32,16 @@ class BakedGood(db.Model, SerializerMixin):
     name = db.Column(db.String)
     price = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'created_at': self.created_at.isoformat()  # Ensuring datetime format is JSON serializable
+        }
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    
 
     bakery_id = db.Column(db.Integer, db.ForeignKey('bakeries.id'))
 
